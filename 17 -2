@@ -1,0 +1,27 @@
+import socket
+
+# Step 1: Create a socket object
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Step 2: Bind the socket to a host and port
+server_socket.bind(('127.0.0.1', 12345))
+
+# Step 3: Listen for incoming connections
+server_socket.listen(1)
+print("Server is waiting for a connection...")
+
+# Step 4: Accept connection from client
+conn, addr = server_socket.accept()
+print("Connected by", addr)
+
+# Step 5: Communicate
+while True:
+    data = conn.recv(1024).decode()
+    if not data:
+        break
+    print("Client:", data)
+    msg = input("You: ")
+    conn.send(msg.encode())
+
+# Step 6: Close connection
+conn.close()
